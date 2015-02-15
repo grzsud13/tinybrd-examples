@@ -27,7 +27,7 @@ void setup()
 }
 void loop()
 {
-  
+//  delay(100);
 
 if (sensor.available())
   {
@@ -37,6 +37,7 @@ if (sensor.available())
     tmp.battery = battery_read();
     radio_write(tmp);
     sensor.request(address);
+//    delay(100);
   }
 
   power_down();

@@ -24,6 +24,10 @@ void radio_write(struct SensorData data)
   while (Mirf.isSending());
 }
 
+void radio_on() {
+//  Mirf.powerUpTx();
+  Mirf.powerUpRx();
+}
 void radio_off()
 {
   Mirf.powerDown();

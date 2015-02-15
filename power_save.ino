@@ -31,7 +31,7 @@ void setup_watchdog(int timerPrescaler)
 
 void power_down()
 {
-//   radio_off();
+   radio_off();
   
   ADCSRA &= ~(1<<ADEN); //Disable ADC, saves ~230uA
   for (byte i=0; i<4; i++) {
@@ -42,5 +42,6 @@ void power_down()
 
 void power_up()
 {
+  radio_on();
   ADCSRA |= (1<<ADEN); //Enable ADC
 }
