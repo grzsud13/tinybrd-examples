@@ -52,11 +52,14 @@ if (sensor.available())
 //    float temperature = sensor.readTemperature(address);
     SensorData tmp;
     tmp.temperature = sensor.readTemperature(address);
-    tmp.battery = 0;
-    Mirf.setTADDR((byte *)"SERV0");
+    tmp.battery = battery_read();
+/*
+Mirf.setTADDR((byte *)"SERV0");
     Mirf.send((byte *) &tmp);
 //    Mirf.send((byte *) &temperature);
     while (Mirf.isSending());
+*/  
+    radio_write(tmp);
     sensor.request(address);
     //pulseLED();
   }
