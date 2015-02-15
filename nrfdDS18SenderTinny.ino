@@ -1,14 +1,16 @@
 
-#include <SPI85.h>
-#include <Mirf.h>
-#include <MirfHardwareSpi85Driver.h>
-
 #include <OneWire.h>
 #include <DS18B20.h>
 
-#define CE 7
-#define CSN 3
 #define LED  1
+
+struct SensorData
+{
+  float temperature;
+  long battery;
+};
+
+ 
 
 #define ONEWIRE_PIN 0
 
@@ -23,15 +25,17 @@ DS18B20 sensor(&onewire);
 
 void setup()
 {
+  radio_setup();
+  /*
   Mirf.cePin = CE;
   Mirf.csnPin = CSN;
   Mirf.spi = &MirfHardwareSpi85;
   Mirf.init();
   
-  Mirf.payload = sizeof(float);
+  Mirf.payload = sizeof(SensorData);
    
   Mirf.config();
-  
+  */
   sensor.begin();
   sensor.request(address);
   
@@ -45,9 +49,13 @@ void loop()
 if (sensor.available())
   {
 
-    float temperature = sensor.readTemperature(address);
+//    float temperature = sensor.readTemperature(address);
+    SensorData tmp;
+    tmp.temperature = sensor.readTemperature(address);
+    tmp.battery = 0;
     Mirf.setTADDR((byte *)"SERV0");
-    Mirf.send((byte *) &temperature);
+    Mirf.send((byte *) &tmp);
+//    Mirf.send((byte *) &temperature);
     while (Mirf.isSending());
     sensor.request(address);
     //pulseLED();
