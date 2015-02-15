@@ -52,25 +52,8 @@ if (sensor.available())
     sensor.request(address);
     //pulseLED();
   }
-//  delay(300);
 
   power_down();
-  /*
-    ADCSRA &= ~(1<<ADEN); //Disable ADC, saves ~230uA
-    digitalWrite(CE, LOW);
-    for (byte i=0; i<4; i++) {
-      setup_watchdog(4); //Setup watchdog to go off after 8sec
-      sleep_mode(); //Go to sleep! Wake up 1sec later and check water
-    }  
-      */
-    ADCSRA |= (1<<ADEN); //Enable ADC
-   digitalWrite(CE, HIGH);
-   
-/*
-Mirf.setTADDR((byte *)"SERV0");
-  Mirf.send((byte *) &heartbeat);
-    while (Mirf.isSending());
-//  pulseLED();
-*/
+  power_up();
 } 
 
