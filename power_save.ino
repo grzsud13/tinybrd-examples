@@ -35,7 +35,7 @@ void power_down()
   
   ADCSRA &= ~(1<<ADEN); //Disable ADC, saves ~230uA
   for (byte i=0; i<4; i++) {
-      setup_watchdog(5); 
+      setup_watchdog(9); 
       sleep_mode();
   }
 }
