@@ -1,14 +1,8 @@
-
-
 struct SensorData
 {
   float temperature;
   long battery;
 };
- 
-
-
-
 
 void setup()
 {

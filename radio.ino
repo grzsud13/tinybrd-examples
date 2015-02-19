@@ -26,10 +26,12 @@ void radio_write(struct SensorData data)
 
 void radio_on() {
 //  Mirf.powerUpTx();
+  digitalWrite(CE, HIGH);
   Mirf.powerUpRx();
 }
 void radio_off()
 {
   Mirf.powerDown();
+  digitalWrite(CE, LOW);
 }
 
