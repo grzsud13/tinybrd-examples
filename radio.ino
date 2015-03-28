@@ -5,6 +5,7 @@
 #define CE 7
 #define CSN 3
 
+#define R_ADDR  "sensor"
 void radio_setup()
 {
   Mirf.cePin = CE;
@@ -13,7 +14,7 @@ void radio_setup()
   Mirf.init();
   
   Mirf.payload = sizeof(struct SensorData);
-   
+  Mirf.setRADDR((byte *)R_ADDR);
   Mirf.config();
 }
 
@@ -26,12 +27,10 @@ void radio_write(struct SensorData data)
 
 void radio_on() {
 //  Mirf.powerUpTx();
-  digitalWrite(CE, HIGH);
   Mirf.powerUpRx();
 }
 void radio_off()
 {
   Mirf.powerDown();
-  digitalWrite(CE, LOW);
 }
 
