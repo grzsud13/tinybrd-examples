@@ -15,7 +15,7 @@ void loop()
 {
   SensorData data;
 
-  data.temperature = temperature_read();
+  data.temperature = 0; //temperature_read();
   data.battery = battery_read();
   
   radio_write(data);
