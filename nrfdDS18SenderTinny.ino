@@ -1,8 +1,15 @@
+
+
 struct SensorData
 {
   float temperature;
   long battery;
+  char id;
 };
+ 
+
+
+
 
 void setup()
 {
@@ -15,7 +22,7 @@ void loop()
 {
   SensorData data;
 
-  data.temperature = 0; //temperature_read();
+  data.temperature = temperature_read();
   data.battery = battery_read();
   
   radio_write(data);
