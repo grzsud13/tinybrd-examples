@@ -1,10 +1,12 @@
-struct CommandData {
- unsigned byte command;
- unsigned byte arg; 
-}
-
-struct ResponseData {
-  unsigned int response;
-}
-
+//
+//struct CommandData 
+//{
+// unsigned byte command;
+// unsigned byte arg; 
+//};
+//
+//struct ResponseData {
+//  unsigned int response;
+//};
+//
 

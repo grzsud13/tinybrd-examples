@@ -5,7 +5,7 @@
 #define CE 7
 #define CSN 3
 
-#define R_ADDR  "sensor"
+//#define R_ADDR  "sensor"
 void radio_setup()
 {
   Mirf.cePin = CE;
@@ -14,7 +14,7 @@ void radio_setup()
   Mirf.init();
   
   Mirf.payload = sizeof(struct SensorData);
-  Mirf.setRADDR((byte *)R_ADDR);
+//  Mirf.setRADDR((byte *)read_id());
   Mirf.config();
 }
 
