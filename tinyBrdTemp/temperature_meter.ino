@@ -13,6 +13,23 @@ void temperature_setup(){
   sensor.request(address);
 };
 
+int  temperature_find_sensor() {
+
+  onewire.reset_search();
+  while(onewire.search(address))
+  {
+    if (address[0] != 0x28)
+      continue;
+
+    if (OneWire::crc8(address, 7) != address[7])
+    {
+      return -1;
+    }
+    return 0;
+  }
+  return -1;
+}
+
 float temperature_read(){
   sensor.request(address);
   while (!sensor.available());
