@@ -3,11 +3,11 @@
 #define LED 1
 
 struct SensorData
-{
-  float temperature;
+  {
+  byte id;
   long battery;
-  char id;
   byte status;
+  float payload;
 };
 
 
@@ -41,9 +41,9 @@ void setup()
 void loop()
 {
   //get data
-  data.temperature = temperature_read();
+  data.payload = temperature_read();
   data.battery = battery_read();
-  data.id = 2;
+  data.id = 3;
 
   //send data
   radio_write(data);

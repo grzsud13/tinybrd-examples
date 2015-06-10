@@ -3,11 +3,11 @@
 #include <MirfHardwareSpiDriver.h>
 
 struct SensorData
-{
-  float temperature;
-  long battery;
+  {
   byte id;
+  long battery;
   byte status;
+  float payload;
 };
 
  
@@ -34,15 +34,15 @@ void loop()
 {
   if (Mirf.dataReady())
   {
-    SensorData payload;
-    Mirf.getData((byte *) &payload);
-    Serial.print((byte)payload.id);
+    SensorData msg;
+    Mirf.getData((byte *) &msg);
+    Serial.print((byte)msg.id);
     Serial.print(F(","));
-    Serial.print(payload.status);
+    Serial.print(msg.status);
     Serial.print(F(","));
-    Serial.print(payload.battery);
+    Serial.print(msg.battery);
     Serial.print(F(","));
-    Serial.println(payload.temperature);
+    Serial.println(msg.payload);
 
   }
  // delay(1000);
