@@ -20,7 +20,7 @@ void setup()
   Mirf.init();
   
   Mirf.payload = sizeof(SensorData);
-  Mirf.setRADDR((byte *)"00002");
+  Mirf.setRADDR((byte *)"00001");
   
   Mirf.config();
   

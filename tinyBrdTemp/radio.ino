@@ -20,7 +20,7 @@ void radio_setup()
 
 void radio_write(struct SensorData data)
 {
-  Mirf.setTADDR((byte *)"00002");
+  Mirf.setTADDR((byte *)"00001");
   Mirf.send((byte *) &data);
   while (Mirf.isSending());
 }
