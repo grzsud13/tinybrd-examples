@@ -7,8 +7,3 @@ void pulse(byte led, unsigned int time=1000, byte cnt = 1) {
   }
 }
 
-void check_for_errors(){
-    if (!data.status){
-    pulse(LED,500,20);
-  }
-}
