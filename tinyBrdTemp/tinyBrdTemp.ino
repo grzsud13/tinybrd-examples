@@ -1,3 +1,6 @@
+#include <SPI.h>
+#include <Radio.h>
+#include <Battery.h>
 
 #define NO_TEMP_SENSOR   1
 #define LED 1
@@ -30,10 +33,9 @@ void setup()
   if (temperature_find_sensor() == -1)
     data.status = NO_TEMP_SENSOR;
   temperature_setup();
-  power_setup();
   pinMode(LED,OUTPUT);
-
-  if (!data.status){
+  data.id = 3;
+  if (data.status != 0){
     pulse(LED,500,20);
   }
 }
@@ -42,15 +44,17 @@ void loop()
 {
   //get data
   data.payload = temperature_read();
-  data.battery = battery_read();
-  data.id = 3;
+  data.battery = batteryRead();
+  
 
   //send data
   radio_write(data);
 
-  //go to sleep and go back
-  power_down();
-  power_up();
-  
+  //go to sleep
+  Radio.off();
+  for (byte i=0;i<4; i++){
+    sleep(SLEEP_8S);
+  };
+  wakeUp();
 }
 

@@ -1,36 +1,14 @@
-#include <SPI85.h>
-#include <Mirf.h>
-#include <MirfHardwareSpi85Driver.h>
 
-#define CE 7
-#define CSN 3
+byte addressRemote[5] = {'0', '0', '0', '0', '2'};
 
-//#define R_ADDR  "sensor"
 void radio_setup()
-{
-  Mirf.cePin = CE;
-  Mirf.csnPin = CSN;
-  Mirf.spi = &MirfHardwareSpi85;
-  Mirf.init();
-  
-  Mirf.payload = sizeof(struct SensorData);
-//  Mirf.setRADDR((byte *)read_id());
-  Mirf.config();
+{  
+  Radio.begin(addressRemote,10);  
 }
 
 void radio_write(struct SensorData data)
 {
-  Mirf.setTADDR((byte *)"00001");
-  Mirf.send((byte *) &data);
-  while (Mirf.isSending());
+  Radio.write(addressRemote,data);
 }
 
-void radio_on() {
-//  Mirf.powerUpTx();
-  Mirf.powerUpRx();
-}
-void radio_off()
-{
-  Mirf.powerDown();
-}
 
