@@ -2,8 +2,8 @@
 #include <Radio.h>
 #include <Battery.h>
 
+
 #define NO_TEMP_SENSOR   1
-#define LED 1
 
 struct SensorData
   {
@@ -11,50 +11,68 @@ struct SensorData
   long battery;
   byte status;
   float payload;
+  byte seq;
+  byte retry;
 };
 
-
 SensorData data;
- 
-void pulse(byte led, unsigned int time=1000, byte cnt = 1) {
-  for (byte i=0;i++;i<cnt) {
-    digitalWrite(led,HIGH);
-    delay(time/2);
-    digitalWrite(led,LOW);
-    delay(time/2);
-  }
-}
 
+byte addressRemote[5] = { 0, 0, 3};
 
 void setup()
 {
   data.status = 0;
-  radio_setup();
-  if (temperature_find_sensor() == -1)
-    data.status = NO_TEMP_SENSOR;
-  temperature_setup();
-  pinMode(LED,OUTPUT);
   data.id = 3;
-  if (data.status != 0){
-    pulse(LED,500,20);
-  }
+    
+  data.status = 0;//temperature_setup();
+
+  byte address[5] = {3,4,5};
+  Radio.begin(address,100);
+  
 }
+
+//**************************************************************
+
+
+void radio_write(struct SensorData &data, byte retry = 0)
+{
+  if (retry == 5) {
+    //we have failed transmit..
+    data.seq ++;
+    return;
+  }
+  data.retry = retry;
+  Radio.write(addressRemote,data);
+  while(true) {
+    switch(Radio.flush()){
+      case RADIO_SENT:
+        data.seq++;
+        return;
+      case RADIO_LOST:
+        radio_write(data,retry+1);
+        return;
+    }
+  }
+  
+}
+
 
 void loop()
 {
   //get data
-  data.payload = temperature_read();
+  if (data.status) {
+    data.payload=0;
+  } else {
+    data.payload = 123;//temperature_read();
+  }
   data.battery = batteryRead();
   
-
   //send data
   radio_write(data);
 
   //go to sleep
   Radio.off();
-  for (byte i=0;i<4; i++){
-    sleep(SLEEP_8S);
-  };
-  wakeUp();
+  sleep(15000);
+//  wakeUp();
 }
 
