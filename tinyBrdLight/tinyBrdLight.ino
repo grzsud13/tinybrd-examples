@@ -1,14 +1,11 @@
-//TinyDebugSerial mySerial;
 
 #include <SPI.h>
 #include <Radio.h>
 #include <Battery.h>
 
 
-#define NO_TEMP_SENSOR   1
-
 struct SensorData
-{
+  {
   byte id;
   long battery;
   byte status;
@@ -16,7 +13,6 @@ struct SensorData
   byte seq;
   byte retry;
 };
-
 SensorData data;
 
 byte addressRemote[5] = { 0, 0, 3};
@@ -25,8 +21,6 @@ void setup()
 {
   data.status = 0;
   data.id = 100;
-
-  data.status = 0;
 
   byte address[5] = {3, 4, 5};
   Radio.begin(address, 100);

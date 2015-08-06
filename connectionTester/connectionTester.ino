@@ -7,17 +7,17 @@
 struct Payload
   {
   byte id;
-  long battery;
-  byte seq;
+  unsigned int battery;
+  unsigned int seq;
   byte retry;
-  byte lost;
+  unsigned int lost;
 } data;
 
 byte addressRemote[5] = { 0, 0, 3};
 
 void setup()
 {
-  data.id = 2;
+  data.id = 100;
   data.seq = data.lost = 0;
   byte address[5] = {3,4,5};
   Radio.begin(address,100);

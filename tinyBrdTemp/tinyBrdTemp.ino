@@ -1,3 +1,4 @@
+
 #include <SPI.h>
 #include <Radio.h>
 #include <Battery.h>
@@ -22,13 +23,12 @@ byte addressRemote[5] = { 0, 0, 3};
 void setup()
 {
   data.status = 0;
-  data.id = 3;
+  data.id = 6;
     
-  data.status = 0;//temperature_setup();
+  data.status = temperature_setup();
 
   byte address[5] = {3,4,5};
   Radio.begin(address,100);
-  
 }
 
 //**************************************************************
@@ -36,6 +36,8 @@ void setup()
 
 void radio_write(struct SensorData &data, byte retry = 0)
 {
+  
+  
   if (retry == 5) {
     //we have failed transmit..
     data.seq ++;
@@ -63,7 +65,7 @@ void loop()
   if (data.status) {
     data.payload=0;
   } else {
-    data.payload = 123;//temperature_read();
+    data.payload = temperature_read();
   }
   data.battery = batteryRead();
   
@@ -73,6 +75,5 @@ void loop()
   //go to sleep
   Radio.off();
   sleep(15000);
-//  wakeUp();
 }
 
