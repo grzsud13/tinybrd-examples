@@ -5,7 +5,7 @@ rm -f *.zip
 mkdir tmp
 mkdir tmp/tinyBrdExamples
 
-zip -r tmp/TSM.zip tinyBrdTemp ReceiverUNO tinyBrdLight
+zip -r tmp/TSM.zip tinyBrdTemp connectionTester tinyBrdLight
 cd tmp/tinyBrdExamples
 unzip ../TSM
 cd ..
