@@ -2,6 +2,7 @@
 #include <DS18B20.h>
 
 #define ONEWIRE_PIN 1
+#define NO_TEMP_SENSOR   1
 
 byte address[8] = {0x28, 0xE6, 0x3C, 0xCC, 0x5, 0x0, 0x0, 0x3E};
 

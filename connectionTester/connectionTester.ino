@@ -17,7 +17,8 @@ byte addressRemote[5] = { 0, 0, 3};
 
 void setup()
 {
-  data.id = 100;
+  data.id = 2;
+  delay(1000);
   data.seq = data.lost = 0;
   byte address[5] = {3,4,5};
   Radio.begin(address,100);

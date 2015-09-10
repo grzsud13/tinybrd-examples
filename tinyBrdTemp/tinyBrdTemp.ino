@@ -4,8 +4,6 @@
 #include <Battery.h>
 
 
-#define NO_TEMP_SENSOR   1
-
 struct SensorData
   {
   byte id;
@@ -14,15 +12,11 @@ struct SensorData
   float payload;
   byte seq;
   byte retry;
-};
+} data;
 
-SensorData data;
-
-byte addressRemote[5] = { 0, 0, 3};
 
 void setup()
 {
-  data.status = 0;
   data.id = 6;
     
   data.status = temperature_setup();
@@ -34,9 +28,9 @@ void setup()
 //**************************************************************
 
 
-void radio_write(struct SensorData &data, byte retry = 0)
+void radioWrite(struct SensorData &data, byte retry = 0)
 {
-  
+  byte addressRemote[3] = { 0, 0, 3};
   
   if (retry == 5) {
     //we have failed transmit..
@@ -51,7 +45,7 @@ void radio_write(struct SensorData &data, byte retry = 0)
         data.seq++;
         return;
       case RADIO_LOST:
-        radio_write(data,retry+1);
+        radioWrite(data,retry+1);
         return;
     }
   }
@@ -70,7 +64,7 @@ void loop()
   data.battery = batteryRead();
   
   //send data
-  radio_write(data);
+  radioWrite(data);
 
   //go to sleep
   Radio.off();
