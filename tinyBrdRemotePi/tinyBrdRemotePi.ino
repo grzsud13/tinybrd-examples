@@ -16,7 +16,7 @@ struct Payload
 void setup() {
   // put your setup code here, to run once:
   debug.begin(9600);
-
+  debug.println(F("START"));
   Radio.begin(address, 100);
 
   data.id = 1;
