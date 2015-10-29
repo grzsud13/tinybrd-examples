@@ -15,7 +15,7 @@ struct Payload
 
 void setup() {
   // put your setup code here, to run once:
-  debug.begin(9600);
+  debug.begin(38400);
   debug.println(F("START"));
   Radio.begin(address, 100);
 
@@ -29,38 +29,51 @@ int i = 0;
 
 void loop() {
   // put your main code here, to run repeatedly:
-  if (byte cnt = Radio.available()) {
-    if (cnt) {
-      byte cmd[cnt];
-      Radio.read(cmd);
-//      debug.print(F("C: "));
-//      debug.print(cnt, DEC);
-//      debug.print(F(", "));
-//      debug.println(cmd[0], DEC);
+  debug.println(F("avail"));
 
-      switch (cmd[0]) {
-        case 102:
-          debug.print(F("Set led to: "));
-          debug.println(cmd[1],DEC);
-          for (byte i=0; i<4; i++) { digitalWrite(leds[i],i >= cmd[1]);}
-        case 99:
-          int ret = map(analogRead(A0), 0, 1023, 0, 4);
-          debug.println(ret,DEC);
-          data.payload = ret;
-          Radio.write(serverAddr,data);
-//          delay(20);
-          if(RADIO_LOST == Radio.flush(RADIO_BLOCK)) {
-//            debug.println(F("NOT SENT"));
-          } else {
-//            debug.println(F("Waits/sent?"));
-          }
-      }
+  if (byte cnt = Radio.available()) {
+    byte cmd[cnt];
+    debug.println(F("read"));
+    Radio.read(cmd);
+    debug.println(F("done"));
+
+    //      debug.print(F("C: "));
+    //      debug.print(cnt, DEC);
+    //      debug.print(F(", "));
+    //      debug.println(cmd[0], DEC);
+
+    switch (cmd[0]) {
+      case 102:
+        //        debug.print(F("Set led to: "));
+        //        debug.println(cmd[1], DEC);
+        for (byte j = 1; j <= 4; j++) {
+          bool val = j <= cmd[1];
+          digitalWrite(leds[j - 1], val);
+          //          debug.print(j,DEC);
+          //          if (val) { debug.println(F(": T")); } else { debug.println(F(": F"));}
+        }
+        break;
+      case 99:
+        int ret = analogRead(A0);
+        //        debug.println(ret, DEC);
+        data.payload = ret;
+        debug.println(F("write"));
+        Radio.write(serverAddr, data);
+        //          delay(20);
+        debug.println(F("flush"));
+        if (RADIO_LOST == Radio.flush(RADIO_BLOCK)) {
+          debug.println(F("NOT SENT"));
+        } else {
+          debug.println(F("Waits/sent?"));
+        }
+
 
     }
   }
   i++;
-  if (i > 100) {
-    debug.println(F("TICK"));
+  if (i > 500) {
+    debug.print(F("TICK "));
+    debug.println(millis(), DEC);
     i = 0;
   }
   delay(10);
