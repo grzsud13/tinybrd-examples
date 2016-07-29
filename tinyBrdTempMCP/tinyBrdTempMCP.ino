@@ -72,7 +72,7 @@ void loop()
   }
 
   //go to sleep
-  sleep(5000);
+  sleep(10000);
   digitalWrite(10,HIGH);
   delay(200);
   digitalWrite(10,LOW);
